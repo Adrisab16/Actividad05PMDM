@@ -26,47 +26,44 @@ class MainActivity : ComponentActivity() {
             AppTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                ) {
-                    MainView()
-                }
+                ) {MainView()}
             }
         }
     }
 }
 
+// Composable con la vista principal:
 @Composable
 fun MainView() {
-    var showDialog by remember {mutableStateOf(false)}
-    var name by remember {mutableStateOf("")}
-    var acceptCounter by remember {mutableStateOf(0)}
-    var cancelCounter by remember {mutableStateOf(0)}
+    //Variables by remember:
+    var showDialog by remember {mutableStateOf(false)} //Varaible para controlar cuando se muestra el Dialog
+    var name by remember {mutableStateOf("")} // Variable para mostrar el nombre insertado
+    var acceptCounter by remember {mutableStateOf(0)} // Contador de veces que se ha pulsado Aceptar
+    var cancelCounter by remember {mutableStateOf(0)} // Contador de veces que se ha pulsado Cancelar
 
+    // Botón principal:
     Row {
         // Caja botón:
         Box(modifier = Modifier
             .fillMaxSize()
             .padding(bottom = 40.dp),
             contentAlignment = Alignment.Center){
-            Button(onClick = {showDialog = true}, modifier = Modifier
-                .height(50.dp)
-                .width(150.dp)) {
-                Text("Saludar")}
+            Button(onClick = {showDialog = true}, modifier = Modifier.height(50.dp).width(150.dp)){Text("Saludar")}
         }
     }
 
     Spacer(modifier = Modifier.height(16.dp))
 
+    // Frase para saludar, si no hay nombre, no se muestra el texto:
     Row {
         // Caja textview:
-        Box(modifier = Modifier
-            .fillMaxSize()
-            .padding(top = 100.dp),
+        Box(modifier = Modifier.fillMaxSize().padding(top = 100.dp),
             contentAlignment = Alignment.Center) {
             Text(text = if (name.isNotEmpty()) "Hola, $name" else "")
         }
     }
 
-    // Ventana de diálogo
+    // Ventana Dialog con las posibilidades que da el programa (Aceptar, Limpiar y Cancelar):
     if (showDialog) {
         SecondaryView(
             name = name,
@@ -85,22 +82,25 @@ fun MainView() {
 
     Spacer(modifier = Modifier.height(16.dp))
 
-    // Contador de botones
+    // Contador de botones clickados, si se pulsa aceptar, sumará 1 a la variable accepCounter
     Box(modifier = Modifier.fillMaxWidth().padding(top = 50.dp),
         contentAlignment = Alignment.Center
     ) {Text(text = "A$acceptCounter C$cancelCounter")}
 }
 
+// Compasable con el Dialog
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SecondaryView(
+    //Variables:
     name: String,
     onAccept: (String) -> Unit,
     onCancel: () -> Unit,
     onClear: () -> Unit
 ) {
-    var newName by remember { mutableStateOf(name) }
+    var newName by remember {mutableStateOf(name)} //Variable para visualizar el nombre:
 
+    //Ventana Dialog:
     Dialog(onDismissRequest = {
         onClear()
         onCancel()
@@ -108,33 +108,36 @@ fun SecondaryView(
     ){
         Box(
             modifier = Modifier
-                .background(Color.White) // Establece el fondo blanco
-                .padding(15.dp) // Ajusta el relleno según sea necesario
-        ) {
-            // Contenido del diálogo aquí
+                .background(Color.White)
+                .padding(15.dp)
+        ) {// Contenido del diálogo:
             Column(modifier = Modifier.fillMaxWidth().padding(15.dp),
-            ) {
+            ) {//Titulo:
                 Row(
                     horizontalArrangement = Arrangement.End,
                     modifier = Modifier.fillMaxWidth()
                 ){
-                    // Título Configuración
+                    // Texto Configuración:
                     Text(
                         text = "Configuración",
                         modifier = Modifier.padding(8.dp),
-                        color = Color.Black, // Ajusta el color del texto según sea necesario
-                        fontSize = 20.sp // Ajusta el tamaño de la fuente según sea necesario
+                        color = Color.Black,
+                        fontSize = 20.sp
                     )}
-
 
                 Spacer(modifier = Modifier.height(15.dp))
 
-                // Etiqueta "Introduce tu nombre"
-                Text(text = "Introduce tu nombre")
+                // Frase para introducir el nombre arriba del TextField y centrado:
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier.fillMaxWidth()
+                ){
+                    // Texto aqui:
+                    Text(text = "Introduce tu nombre")}
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                // Campo de texto para editar el nombre:
+                // TextField para editar el nombre:
                 TextField(
                     value = newName,
                     onValueChange = { newName = it },
@@ -164,6 +167,7 @@ fun SecondaryView(
     }
 }
 
+//Preview de la pantalla principal:
 @Preview(showBackground = true)
 @Composable
 fun AppPreview() {
