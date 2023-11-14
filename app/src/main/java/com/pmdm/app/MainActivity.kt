@@ -15,6 +15,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.pmdm.app.ui.theme.AppTheme
 
@@ -112,10 +113,19 @@ fun SecondaryView(
         ) {
             // Contenido del diálogo aquí
             Column(modifier = Modifier.fillMaxWidth().padding(15.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // Título Configuración
-                Text(text = "Configuración")
+                Row(
+                    horizontalArrangement = Arrangement.End,
+                    modifier = Modifier.fillMaxWidth()
+                ){
+                    // Título Configuración
+                    Text(
+                        text = "Configuración",
+                        modifier = Modifier.padding(8.dp),
+                        color = Color.Black, // Ajusta el color del texto según sea necesario
+                        fontSize = 20.sp // Ajusta el tamaño de la fuente según sea necesario
+                    )}
+
 
                 Spacer(modifier = Modifier.height(15.dp))
 
